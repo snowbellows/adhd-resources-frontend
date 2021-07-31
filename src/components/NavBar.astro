@@ -1,0 +1,13 @@
+---
+const categoriesResponse = await fetch('http://localhost:1337/categories');
+const categories = await categoriesResponse.json();
+console.log({categories})
+---
+
+<nav>
+  <ol>
+    {categories.map(category => (
+      <li><a href={`/categories/${category.slug}`}>{category.name}</a></li>
+    ))}
+  </ol>
+</nav>

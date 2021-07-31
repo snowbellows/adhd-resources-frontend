@@ -1,0 +1,12 @@
+---
+import {Markdown} from 'astro/components'
+const {item} = Astro.props;
+---
+
+<article>
+  <div><h3><a href={`/tips/${item.id}`}>{item.title}</a></h3></div>
+  <div>Tip from: {item.author}</div>
+  <div>
+    <Markdown content={item.content} />
+  </div>
+</article>

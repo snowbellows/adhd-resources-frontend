@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Tip from '../components/Tip.astro';
+
+export async function createCollection() {
+  const categoriesResponse = await fetch('http://localhost:1337/categories');
+  const categories = await categoriesResponse.json();
+  const categoryWithTipsRequests = 
+    categories.map(category => 
+      fetch(`http://localhost:1337/categories/${category.slug}/tips`)
+    );
+  const categoryWithTipsResponses = await Promise.all(categoryWithTipsRequests);
+  const categoryWithTipsResults = 
+    categoryWithTipsResponses.map(res => 
+      res.json()
+    );
+  const categoryWithTips = await Promise.all(categoryWithTipsResults);
+  return {
+    route: '/categories/:slug',
+    paths() {
+      return categoryWithTips.map(category => ({params: {slug: category.slug}}));
+    },
+    async props({params}) {
+      return {item: categoryWithTips.find(category => category.slug === params.slug)};
+    }
+  }
+}
+
+const {item} = Astro.props;
+---
+
+<BaseLayout title={item.name}>
+  <h2>{item.name}</h2>
+  {item.tips.map(item => (
+    <Tip item={item} />
+  ))}
+</BaseLayout>
