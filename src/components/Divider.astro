@@ -1,0 +1,18 @@
+<div class="bottom-line"></div>
+
+<style lang="scss">
+@use '../style/_colours';
+@use '../style/_breakpoints';
+
+.bottom-line {
+    border-bottom: 1px solid colours.$robins-egg;
+    margin-left: -6px;
+    margin-top: 12px;
+    width: calc(100% + 12px);
+
+    @include breakpoints.for-tablet-portrait-up {
+      width: 307px;
+      border-width: 2px;
+    }
+  }
+</style>

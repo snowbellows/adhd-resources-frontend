@@ -1,5 +1,6 @@
 ---
 import {Markdown} from 'astro/components'
+import Divider from '../components/Divider';
 import RightArrowIcon from '../icons/chevron-right';
 import LinkIcon from '../icons/link';
 import PlusIcon from '../icons/plus';
@@ -26,7 +27,7 @@ const {item} = Astro.props;
   <div class="content">
     <Markdown content={item.content} />
   </div>
-  <div class="bottom-line"></div>
+  <Divider />
 </article>
 
 <style lang="scss">
@@ -41,6 +42,7 @@ article {
     display: none;
 
     &:checked ~ .content {
+      /* Show Content */
       left: auto;
       top: auto;
       width: auto;
@@ -50,10 +52,12 @@ article {
     }
 
     &:checked ~ .title  .toggle-icon .base {
+      /* Hide Plus */
       display: none;
     }
 
     &:checked ~ .title .toggle-icon .active {
+      /* Show Minus */
       display: inline-block;
     }
   }
@@ -87,8 +91,6 @@ article {
         span {
           color: colours.$dark-grey;
           flex: 0 1 auto;
-          // max-width: 75%;
-          // margin: 0px 4px;position: relative;
           position: relative;
 
           &::after {
@@ -147,7 +149,6 @@ article {
   }
 
   .content {
-
     /* SR Only */
     left: -10000px;
     top: auto;
@@ -167,18 +168,6 @@ article {
 
     p, ol, ul {
       margin-bottom: 0.8rem;
-    }
-  }
-
-  .bottom-line {
-    border-bottom: 1px solid colours.$robins-egg;
-    margin-left: -6px;
-    margin-top: 12px;
-    width: calc(100% + 12px);
-
-    @include breakpoints.for-tablet-portrait-up {
-      width: 307px;
-      border-width: 2px;
     }
   }
 }
