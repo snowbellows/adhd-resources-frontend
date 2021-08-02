@@ -12,47 +12,63 @@ const {title} = Astro.props;
   <link rel="stylesheet" href="/style/global.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Acme&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Acme&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <main>
     <Header />
-    <slot />
+    <div class="content">
+      <slot />
+    </div>
   </main>
 </body>
 </html>
 
 <style lang="scss">
-$robins-egg: #3ED5E1;
-$deep-aqua: #2A9098;
-$carolina-blue: #8BA0E0;
-$amethyst: #CE7BE4;
-$dark-grey: #353838;
-$silver: #D7E0E1;
-$white: #FFFFFF;
+@use '../style/_colours';
+@use '../style/_breakpoints';
 
 body {
   margin-top: 10px;
   width: 100%;
   min-height: 100%;
-  background: $silver;
-  color: $dark-grey;
+  background: colours.$silver;
+  color: colours.$dark-grey;
   margin: 0px;
 
   @media (prefers-color-scheme: dark) {
-    background: $dark-grey;
-    color: $white;
+    background: colours.$dark-grey;
+    color: colours.$white;
   }
 }
 
 main {
-  width: 100%;
+  background: colours.$white;
   min-height: 100vh;
-  background: $white;
+  width: 100%;
 
   @media (prefers-color-scheme: dark) {
-    background: $dark-grey;
-    color: $white;
+    background: colours.$dark-grey;
+    color: colours.$white;
+  }
+
+  @include breakpoints.for-tablet-landscape-up {
+    box-shadow: 0px 0px 4px 0px rgba(colours.$dark-grey, 0.5);
+    overflow: hidden;
+    margin: auto;
+    width: 700px;
+  }
+
+  @include breakpoints.for-desktop-up {
+    width: 1000px;
+  }
+
+  .content {
+    padding: 15px 40px;
+
+    @include breakpoints.for-iphone-5-only {
+      padding: 10px 30px;
+    }
   }
 }
 </style>

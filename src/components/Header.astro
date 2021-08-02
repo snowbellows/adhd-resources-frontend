@@ -16,35 +16,56 @@ const categories = await categoriesResponse.json();
     <div><h1>ADHD Life Hacks</h1></div>
   </div>
   <nav id="overlay">
-    <ol>
-      {categories.map(category => (
-        <li><a href={`/categories/${category.slug}`}><RightArrowIcon /> <span>{category.name}</span></a></li>
-      ))}
-    </ol>
+    <div class="link-group">
+      <div class="dropdown">
+        <input id="dropdown-input" type="checkbox" aria-hidden="true">
+        <label for="dropdown-input" class="link-heading">
+          <h3><span>Categories</span></h3>
+        </label>
+        <ol>
+          {categories.map(category => (
+            <li><a href={`/categories/${category.slug}`}><RightArrowIcon /> <span>{category.name}</span></a></li>
+          ))}
+        </ol>
+      </div>
+      <div class="link-heading">
+        <a href="/about"><span>About</span></a>
+      </div>
+    </div>
+    <div class="link-group">
+      <div class="link-heading">
+        <a href="/submit"><span>Submit Hack</span></a>
+      </div>
+      <div class="link-heading">
+        <a href="/search"><span>Search</span></a>
+      </div>
+    </div>
   </nav>
 </header>
 
 <style lang="scss">
-$robins-egg: #3ED5E1;
-$deep-aqua: #2A9098;
-$carolina-blue: #8BA0E0;
-$amethyst: #CE7BE4;
-$dark-grey: #353838;
-$silver: #D7E0E1;
-$white: #FFFFFF;
+@use '../style/_colours';
+@use '../style/_breakpoints';
 
 h1 {
   font-size: 1.85rem;
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
+
+  @include breakpoints.for-iphone-5-only {
+    font-size: 1.6rem;
+  }
 }
 
 header {
-  box-shadow: 0px 0px 4px 0px rgba($dark-grey, 0.5);
+  box-shadow: 0px 0px 4px 0px rgba(colours.$dark-grey, 0.5);
   height: 4.625rem;
-  margin-bottom: 15px;
   position: relative;
   width: 100%;
+
+  @include breakpoints.for-tablet-portrait-up {
+    height: auto;
+  }
 
   .header-bar {
     align-items: center;
@@ -53,9 +74,13 @@ header {
     padding: 16px 40px;
     
     .menu-icon{
-      height: 32px;
+      height: 24px;
       position: relative;
-      width: 32px;
+      width: 24px;
+
+      @include breakpoints.for-tablet-portrait-up {
+        display: none;
+      }
 
       .base {
         position: absolute;
@@ -69,7 +94,7 @@ header {
     }
   }
 
-#overlay-input {
+  #overlay-input {
     display: none;
 
     &:checked ~ nav {
@@ -90,8 +115,8 @@ header {
 
 
   nav {
-    background-color: $white;
-    box-shadow: 2px 2px 4px 0px rgba($dark-grey, 0.5);
+    background-color: colours.$white;
+    box-shadow: 2px 2px 4px 0px rgba(colours.$dark-grey, 0.5);
     left: 0;
     position: absolute;
     top: 4.625rem;
@@ -104,26 +129,153 @@ header {
     height: 1px;
     overflow: hidden;
 
+    @include breakpoints.for-tablet-portrait-up {
+      background-color: colours.$deep-aqua;
+      border-bottom: 1px solid rgb(colours.$dark-grey, 0.25);
+      border-top: 1px solid rgb(colours.$dark-grey, 0.25);
+      box-shadow: none;
+      display: flex;
+      height: auto;
+      justify-content: space-between;
+      left: 0;
+      top: auto;
+      overflow: visible;
+      position: relative;
+      width: 100%;
+    }
+
+    .link-group {
+       @include breakpoints.for-tablet-portrait-up {
+         display: flex;
+      }
+    }
+
+    .link-heading {
+      display: inline-block;
+      height: 2.8rem;
+      width: 100%;
+
+      @include breakpoints.for-tablet-portrait-up {
+        width: auto;
+
+        &:last-of-type a {
+          border-right: 1px solid rgb(colours.$dark-grey, 0.25);
+        }
+      }
+      
+      h3, a {
+        align-items: center;
+        background-color: colours.$deep-aqua;
+        border-top: 1px solid rgb(colours.$dark-grey, 0.25);
+        color: colours.$white;
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 600;
+        height: 100%;
+        padding-left: 12px;
+        width: 100%;
+
+        @include breakpoints.for-tablet-portrait-up {
+          border-left: 1px solid rgb(colours.$dark-grey, 0.25);
+          flex: 0 0 auto;
+          font-size: 1rem;
+          justify-content: center;
+          text-align: center;
+          text-decoration: underline;
+          padding-right: 12px;
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+
+      @include breakpoints.for-tablet-portrait-up {
+        &:hover ~ ol {
+          left: 0;
+          height: auto;
+          top: 2.8rem;
+          width: 200%;
+        }
+      }
+
+      a {
+        &:hover, &:focus {
+          color: colours.$carolina-blue;
+          background-color: rgba(colours.$white, 0.9);
+        }
+      }
+    }
+
+    .dropdown {
+      position: relative;
+      overflow: visible;
+
+      #dropdown-input {
+        display: none;
+
+        @include breakpoints.for-tablet-portrait-up {
+          &:checked ~ ol {
+            left: 0;
+            height: auto;
+            top: 2.8rem;
+            width: 200%;
+          }
+
+          &:checked ~ .link-heading h3 {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
     ol {
       list-style: none;
       padding: 0px;
+
+      @include breakpoints.for-tablet-portrait-up {
+        background-color: white;
+        box-shadow: 2px 2px 4px 0px rgba(colours.$dark-grey, 0.5);
+        left: 0;
+        position: absolute;
+        top: 2.8rem;
+        z-index: 3;
+
+        /* SR Only */
+        left: -10000px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+
+        &:hover {
+          left: 0;
+          height: auto;
+          top: 2.8rem;
+          width: 200%;
+        }
+      }
 
       li {
         height: 2.8rem;
 
         a {
           align-items: center;
-          border-top: 1px solid rgb($dark-grey, 0.25);
+          border-top: 1px solid rgb(colours.$dark-grey, 0.25);
           display: flex;
           font-size: 1.125rem;
           height: 100%;
           padding-left: 19px;
-          color: $deep-aqua;
+          color: colours.$deep-aqua;
           width: 100%;
 
+          @include breakpoints.for-tablet-portrait-up {
+            font-size: 1rem;
+          }
+
           &:hover, &:focus {
-            color: $carolina-blue;
-            background-color: rgba($dark-grey, 0.03);
+            color: colours.$carolina-blue;
+            background-color: rgba(colours.$dark-grey, 0.03);
           }
         }
       }
