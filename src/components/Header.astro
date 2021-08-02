@@ -1,0 +1,133 @@
+---
+import MenuIcon from '../icons/th-menu.astro';
+import MenuOutlineIcon from '../icons/th-menu-outline.astro';
+import RightArrowIcon from '../icons/chevron-right';
+
+const categoriesResponse = await fetch('http://localhost:1337/categories');
+const categories = await categoriesResponse.json();
+---
+<header>
+  <input id="overlay-input" type="checkbox" aria-hidden="true">
+  <div class="header-bar">
+    <label for="overlay-input" class="menu-icon" aria-hidden="true">
+      <div class="base"><MenuIcon /></div>
+      <div class="active"><MenuOutlineIcon /></div>
+    </label>
+    <div><h1>ADHD Life Hacks</h1></div>
+  </div>
+  <nav id="overlay">
+    <ol>
+      {categories.map(category => (
+        <li><a href={`/categories/${category.slug}`}><RightArrowIcon /> <span>{category.name}</span></a></li>
+      ))}
+    </ol>
+  </nav>
+</header>
+
+<style lang="scss">
+$robins-egg: #3ED5E1;
+$deep-aqua: #2A9098;
+$carolina-blue: #8BA0E0;
+$amethyst: #CE7BE4;
+$dark-grey: #353838;
+$silver: #D7E0E1;
+$white: #FFFFFF;
+
+h1 {
+  font-size: 1.85rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+header {
+  box-shadow: 0px 0px 4px 0px rgba($dark-grey, 0.5);
+  height: 4.625rem;
+  margin-bottom: 15px;
+  position: relative;
+  width: 100%;
+
+  .header-bar {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 40px;
+    
+    .menu-icon{
+      height: 32px;
+      position: relative;
+      width: 32px;
+
+      .base {
+        position: absolute;
+        visibility: visible;
+      }
+      
+      .active {
+        position: absolute;
+        visibility: hidden;
+      }
+    }
+  }
+
+#overlay-input {
+    display: none;
+
+    &:checked ~ nav {
+      left: 0;
+      height: auto;
+      top: 4.625rem;
+      width: 75%;
+    }
+
+    &:checked ~ .header-bar .base {
+      visibility: hidden;
+    }
+
+    &:checked ~ .header-bar .active {
+      visibility: visible;
+    }
+  }
+
+
+  nav {
+    background-color: $white;
+    box-shadow: 2px 2px 4px 0px rgba($dark-grey, 0.5);
+    left: 0;
+    position: absolute;
+    top: 4.625rem;
+    width: 75%;
+
+    /* SR Only */
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+
+    ol {
+      list-style: none;
+      padding: 0px;
+
+      li {
+        height: 2.8rem;
+
+        a {
+          align-items: center;
+          border-top: 1px solid rgb($dark-grey, 0.25);
+          display: flex;
+          font-size: 1.125rem;
+          height: 100%;
+          padding-left: 19px;
+          color: $deep-aqua;
+          width: 100%;
+
+          &:hover, &:focus {
+            color: $carolina-blue;
+            background-color: rgba($dark-grey, 0.03);
+          }
+        }
+      }
+    }
+  }
+}
+</style>
