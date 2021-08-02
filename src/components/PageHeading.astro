@@ -1,0 +1,32 @@
+---
+const {heading} = Astro.props;
+---
+
+<div class="page-heading">
+  <h2>{heading}</h2>
+  <div class="bottom-line"></div>
+</div>
+
+<style lang="scss">
+@use '../style/_colours';
+@use '../style/_breakpoints';
+
+.page-heading {
+  margin-bottom: 16px;
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .bottom-line {
+    border-bottom: 1px solid colours.$robins-egg;
+    margin-left: -6px;
+    margin-top: 12px;
+    width: calc(100% + 12px);
+
+    @include breakpoints.for-tablet-portrait-up {
+      width: 307px;
+    }
+  }
+}
+</style>

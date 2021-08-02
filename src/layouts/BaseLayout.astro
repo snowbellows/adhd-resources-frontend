@@ -65,9 +65,15 @@ main {
 
   .content {
     padding: 15px 40px;
+    padding-top: calc(4.6255rem + 15px);
 
     @include breakpoints.for-iphone-5-only {
       padding: 10px 30px;
+      padding-top: calc(4.6255rem + 10px);
+    }
+
+    @include breakpoints.for-tablet-portrait-up {
+      padding-top: 15px;
     }
   }
 }

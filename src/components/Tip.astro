@@ -1,12 +1,184 @@
 ---
 import {Markdown} from 'astro/components'
+import RightArrowIcon from '../icons/chevron-right';
+import LinkIcon from '../icons/link';
+import PlusIcon from '../icons/plus';
+import MinusIcon from '../icons/minus';
+
 const {item} = Astro.props;
 ---
 
-<article>
-  <div><h3><a href={`/tips/${item.id}`}>{item.title}</a></h3></div>
-  <div>Tip from: {item.author}</div>
-  <div>
+<article class={`article-${item.id}`}>
+  <input id={`toggle-input-${item.id}`} type="checkbox" aria-hidden="true">
+  <div class="title">
+    <h3>
+      <a href={`/tips/${item.id}`}>
+        <div class="icon-container"><RightArrowIcon /></div>
+        <div class="title-container"><span>{item.title}</span></div>
+      </a>
+    </h3>
+    <label class="toggle-icon" for={`toggle-input-${item.id}`} aria-hidden="true">
+      <div class="base"><PlusIcon /></div>
+      <div class="active"><MinusIcon /></div>
+    </label>
+  </div>
+  <div class="author">{item.author}</div>
+  <div class="content">
     <Markdown content={item.content} />
   </div>
+  <div class="bottom-line"></div>
 </article>
+
+<style lang="scss">
+@use '../style/_colours';
+@use '../style/_breakpoints';
+
+article {
+  position: relative;
+  margin-bottom: 16px;
+
+  input[type="checkbox"] {
+    display: none;
+
+    &:checked ~ .content {
+      left: auto;
+      top: auto;
+      width: auto;
+      height: auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    &:checked ~ .title  .toggle-icon .base {
+      display: none;
+    }
+
+    &:checked ~ .title .toggle-icon .active {
+      display: inline-block;
+    }
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    margin-left: -28px;
+    width: auto;
+
+  
+    a {
+      align-items: flex-start;
+      display: flex;
+      text-decoration: none;
+    
+      &:hover, &:focus {
+        .title-container {
+          span {
+            color: colours.$carolina-blue;
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .title-container {
+        padding: 0px 4px;
+        padding-right: 28;
+        
+
+        span {
+          color: colours.$dark-grey;
+          flex: 0 1 auto;
+          // max-width: 75%;
+          // margin: 0px 4px;position: relative;
+          position: relative;
+
+          &::after {
+            content: "";
+            background-image: url('/icons/link.svg');
+            height: 24px;
+            position: absolute;
+            top: 0;
+            right: -28;
+            width: 24px;
+
+            @include breakpoints.for-tablet-portrait-up {
+              margin-top: 1px;
+            }
+
+            @include breakpoints.for-tablet-landscape-up {
+              margin-top: 3px;
+            }
+          }
+        }
+      }
+
+      .icon-container {
+        flex: 0 0 auto;
+
+        @include breakpoints.for-tablet-portrait-up {
+          margin-top: 1px;
+        }
+
+        @include breakpoints.for-tablet-landscape-up {
+          margin-top: 3px;
+        }
+      }
+    }
+
+    .toggle-icon {
+      flex: 0 0 auto;
+
+      @include breakpoints.for-tablet-portrait-up {
+        display: none;
+      }
+
+      .base {
+        display: inline-block;
+      }
+
+      .active {
+        display: none;
+      }
+    }
+  }
+
+  .author {
+    color: colours.$deep-aqua;
+    margin-bottom: 16px;
+  }
+
+  .content {
+
+    /* SR Only */
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+
+    @include breakpoints.for-tablet-portrait-up {
+      left: auto;
+      top: auto;
+      width: auto;
+      height: auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    p, ol, ul {
+      margin-bottom: 0.8rem;
+    }
+  }
+
+  .bottom-line {
+    border-bottom: 1px solid colours.$robins-egg;
+    margin-left: -6px;
+    margin-top: 12px;
+    width: calc(100% + 12px);
+
+    @include breakpoints.for-tablet-portrait-up {
+      width: 307px;
+    }
+  }
+}
+</style>

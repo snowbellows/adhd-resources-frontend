@@ -1,6 +1,6 @@
 ---
-import MenuIcon from '../icons/th-menu.astro';
-import MenuOutlineIcon from '../icons/th-menu-outline.astro';
+import MenuIcon from '../icons/th-menu';
+import MenuOutlineIcon from '../icons/th-menu-outline';
 import RightArrowIcon from '../icons/chevron-right';
 
 const categoriesResponse = await fetch('http://localhost:1337/categories');
@@ -15,7 +15,7 @@ const categories = await categoriesResponse.json();
     </label>
     <div><h1>ADHD Life Hacks</h1></div>
   </div>
-  <nav id="overlay">
+  <nav>
     <div class="link-group">
       <div class="dropdown">
         <input id="dropdown-input" type="checkbox" aria-hidden="true">
@@ -41,6 +41,7 @@ const categories = await categoriesResponse.json();
       </div>
     </div>
   </nav>
+  <div class="overlay"></div>
 </header>
 
 <style lang="scss">
@@ -58,13 +59,16 @@ h1 {
 }
 
 header {
+  background-color: colours.$white;
   box-shadow: 0px 0px 4px 0px rgba(colours.$dark-grey, 0.5);
   height: 4.625rem;
-  position: relative;
+  position: fixed;
   width: 100%;
+  z-index: 50;
 
   @include breakpoints.for-tablet-portrait-up {
     height: auto;
+    position: relative;
   }
 
   .header-bar {
@@ -100,8 +104,13 @@ header {
     &:checked ~ nav {
       left: 0;
       height: auto;
+      overflow: scroll;
       top: 4.625rem;
       width: 75%;
+    }
+
+    &:checked ~ .overlay {
+      display: inline-block;
     }
 
     &:checked ~ .header-bar .base {
@@ -117,10 +126,9 @@ header {
   nav {
     background-color: colours.$white;
     box-shadow: 2px 2px 4px 0px rgba(colours.$dark-grey, 0.5);
-    left: 0;
-    position: absolute;
-    top: 4.625rem;
-    width: 75%;
+    max-height: calc(100vh - 4.625rem);
+    position: fixed;
+    z-index: 49;
 
     /* SR Only */
     left: -10000px;
@@ -177,6 +185,7 @@ header {
 
         @include breakpoints.for-tablet-portrait-up {
           border-left: 1px solid rgb(colours.$dark-grey, 0.25);
+          border-top: none;
           flex: 0 0 auto;
           font-size: 1rem;
           justify-content: center;
@@ -280,6 +289,17 @@ header {
         }
       }
     }
+  }
+
+  .overlay {
+    background-color: rgba(colours.$dark-grey, 0.5);
+    display: none;
+    left: 0;
+    height: calc(100vh - 4.625rem);
+    position: fixed;
+    right: 0;
+    top: 4.625rem;
+    z-index: 48;
   }
 }
 </style>

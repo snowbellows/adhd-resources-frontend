@@ -1,6 +1,7 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
 import {Markdown} from 'astro/components';
+import BaseLayout from '../layouts/BaseLayout';
+import PageHeading from '../components/PageHeading';
 
 export async function createCollection() {
   const tipsResponse = await fetch('http://localhost:1337/tips');
@@ -21,7 +22,7 @@ const {item} = Astro.props;
 ---
 
 <BaseLayout title={item.title}>
-  <h2>{item.title}</h2>
+  <PageHeading heading={item.title} />
   <article>
     <div>Tip from: {item.author}</div>
     <div>
