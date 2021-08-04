@@ -7,6 +7,10 @@
     "build": "astro build"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.5.12",
     "astro": "^0.18.5"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
   }
 }

@@ -1,11 +1,12 @@
 ---
+import {getTips} from '../data/tips'
+
 import {Markdown} from 'astro/components';
 import BaseLayout from '../layouts/BaseLayout';
 import PageHeading from '../components/PageHeading';
 
 export async function createCollection() {
-  const tipsResponse = await fetch('http://localhost:1337/tips');
-  const tips = await tipsResponse.json();
+  const tips = await getTips();
 
   return {
     route: '/tips/:id',

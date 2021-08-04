@@ -1,21 +1,12 @@
 ---
+import {getCategoriesWithTips} from '../data/categories';
+
 import BaseLayout from '../layouts/BaseLayout';
 import PageHeading from '../components/PageHeading';
 import Tip from '../components/Tip';
 
 export async function createCollection() {
-  const categoriesResponse = await fetch('http://localhost:1337/categories');
-  const categories = await categoriesResponse.json();
-  const categoryWithTipsRequests = 
-    categories.map(category => 
-      fetch(`http://localhost:1337/categories/${category.slug}/tips`)
-    );
-  const categoryWithTipsResponses = await Promise.all(categoryWithTipsRequests);
-  const categoryWithTipsResults = 
-    categoryWithTipsResponses.map(res => 
-      res.json()
-    );
-  const categoryWithTips = await Promise.all(categoryWithTipsResults);
+  const categoryWithTips = await getCategoriesWithTips();
   return {
     route: '/categories/:slug',
     paths() {

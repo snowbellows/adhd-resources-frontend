@@ -1,10 +1,11 @@
 ---
+import {getCategories} from '../data/categories';
+
 import MenuIcon from '../icons/th-menu';
 import MenuOutlineIcon from '../icons/th-menu-outline';
 import RightArrowIcon from '../icons/chevron-right';
 
-const categoriesResponse = await fetch('http://localhost:1337/categories');
-const categories = await categoriesResponse.json();
+const categories = await getCategories();
 ---
 <header>
   <input id="overlay-input" type="checkbox" aria-hidden="true">
