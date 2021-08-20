@@ -21,7 +21,7 @@ const categories = await getCategories();
       <div class="dropdown">
         <input id="dropdown-input" type="checkbox" aria-hidden="true">
         <label for="dropdown-input" class="link-heading">
-          <h3><span>Categories</span></h3>
+          <h3><a href="#"><span>Categories</span></a></h3>
         </label>
         <ol>
           {categories.map(category => (
@@ -170,9 +170,17 @@ header {
         &:last-of-type a {
           border-right: 1px solid rgb(colours.$dark-grey, 0.25);
         }
+
+        /* Show dropdown list if user is hovering or focused on link heading */
+        &:hover ~ ol, &:focus ~ ol, &:focus-within ~ ol {
+          left: 0;
+          height: auto;
+          top: 2.8rem;
+          width: 200%;
+        }
       }
       
-      h3, a {
+      a {
         align-items: center;
         background-color: colours.$deep-aqua;
         border-top: 1px solid rgb(colours.$dark-grey, 0.25);
@@ -194,25 +202,11 @@ header {
           text-decoration: underline;
           padding-right: 12px;
 
-          &:hover {
+          &:hover, &:focus {
+            color: colours.$carolina-blue;
+            background-color: rgba(colours.$white, 0.9);
             text-decoration: none;
           }
-        }
-      }
-
-      @include breakpoints.for-tablet-portrait-up {
-        &:hover ~ ol {
-          left: 0;
-          height: auto;
-          top: 2.8rem;
-          width: 200%;
-        }
-      }
-
-      a {
-        &:hover, &:focus {
-          color: colours.$carolina-blue;
-          background-color: rgba(colours.$white, 0.9);
         }
       }
     }
@@ -225,6 +219,10 @@ header {
         display: none;
 
         @include breakpoints.for-tablet-portrait-up {
+          /* 
+            Show dropdown list if user has clicked link heading
+            This allows tablets and other devices without hover to work
+          */
           &:checked ~ ol {
             left: 0;
             height: auto;
@@ -258,7 +256,8 @@ header {
         height: 1px;
         overflow: hidden;
 
-        &:hover {
+        /* Keep showing dropdown list if user is hovering or focused on it */
+        &:hover, &:focus, &:focus-within {
           left: 0;
           height: auto;
           top: 2.8rem;

@@ -1,3 +1,5 @@
+@use '../../src/style/_colours';
+
 * {
   box-sizing: border-box;
   margin: 0px;
@@ -28,6 +30,14 @@ html {
   overflow: hidden;
 }
 
-p {
+p, ol, ul {
   margin-bottom: 0.85rem;
+}
+
+a {
+  color: colours.$carolina-blue;
+
+  &:hover, &:active, &:focus {
+    color: colours.$deep-aqua;
+  }
 }
