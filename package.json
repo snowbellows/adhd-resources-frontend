@@ -11,6 +11,7 @@
     "astro": "^0.18.5"
   },
   "dependencies": {
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "voca": "^1.4.0"
   }
 }

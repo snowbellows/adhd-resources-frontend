@@ -4,6 +4,8 @@ import {getTips} from '../data/tips'
 import {Markdown} from 'astro/components';
 import BaseLayout from '../layouts/BaseLayout';
 import PageHeading from '../components/PageHeading';
+import Image from '../components/Image';
+import RightArrowIcon from '../icons/chevron-right';
 
 export async function createCollection() {
   const tips = await getTips();
@@ -25,9 +27,40 @@ const {item} = Astro.props;
 <BaseLayout title={item.title}>
   <PageHeading heading={item.title} />
   <article>
-    <div>Tip from: {item.author}</div>
+    <div class="author">
+    <div class="icon-container"><RightArrowIcon /></div>
+    <div>{item.author}</div>
+    </div>
     <div>
+      {item.picture && <Image image={item.picture} />}
       <Markdown content={item.content} />
     </div>
   </article>
 </BaseLayout>
+
+<style lang="scss">
+@use '../style/_colours';
+@use '../style/_breakpoints';
+
+.author {
+  color: colours.$deep-aqua;
+  display: flex;
+  margin-bottom: 1rem;
+  margin-left: -28px;
+
+  .icon-container {
+    flex: 0 0 auto;
+    margin-right: 4px;
+    margin-top: -2px;
+
+
+    @include breakpoints.for-tablet-portrait-up {
+      margin-top: -3px;
+    }
+
+    @include breakpoints.for-tablet-landscape-up {
+      margin-top: 2px;
+    }
+  }
+}
+</style>

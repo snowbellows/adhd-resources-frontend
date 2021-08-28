@@ -12,7 +12,7 @@ export interface Tip {
   title: string;
   content: string;
   author: string;
-  pictures: Picture[];
+  picture: Picture;
 }
 
 export interface TipWithCategories {

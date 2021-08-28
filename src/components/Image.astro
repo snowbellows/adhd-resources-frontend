@@ -1,0 +1,57 @@
+---
+import v from 'voca';
+
+const {image} = Astro.props;
+
+console.log(image)
+const {API_BASE} = __SNOWPACK_ENV__
+
+const images = [
+    {size: 'small', media: '(max-width: 599px)'}, 
+    {size: 'medium', media: '(max-width: 900px)'}, 
+    {size: '', media: ''}
+  ].map(({size, media}) => {
+  const width = image.formats[size]? image.formats[size].width : image.width;
+
+  return {
+    srcset: `${API_BASE}/uploads/${size}${image.hash}${image.ext} ${width}w`,
+    size: `${media} ${width}px`
+    }
+});
+
+const srcset = images.map(image => image.srcset).join(', ');
+const sizes = images.map(image => image.size).join(', ');
+const altText = v.escapeHtml(image.alternativeText)
+---
+
+<div class="image-container">
+  <img 
+    srcset={srcset}
+    sizes={sizes}
+    src={`${__SNOWPACK_ENV__.API_BASE}${image.url}`} 
+    alt={altText} 
+  />
+</div>
+
+<style lang="scss">
+@use '../style/_colours';
+@use '../style/_breakpoints';
+
+.image-container {
+  width: 100%;
+
+  @include breakpoints.for-tablet-portrait-up {
+    float: left;
+    margin-right: 1rem;
+    margin-top: 5px;
+    max-width: 500px;
+  }
+}
+
+img {
+  border: 3px solid colours.$white;
+  box-shadow: 0px 0px 4px 0px rgba(colours.$dark-grey, 0.5);
+  margin-bottom: 1rem;
+  width: 100%;
+}
+</style>

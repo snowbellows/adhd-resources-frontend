@@ -5,11 +5,10 @@ import {Markdown} from 'astro/components';
 import BaseLayout from '../layouts/BaseLayout';
 
 const page = await getPage('home');
-let title = 'ADHD Tips and Tricks';
 ---
 
 <BaseLayout title="Home">
-    <div>
-        <Markdown content={page.content} />
-    </div>
+  <div>
+    <Markdown content={page.content} />
+  </div>
 </BaseLayout>
