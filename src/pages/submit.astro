@@ -1,0 +1,33 @@
+---
+import {getPage} from '../data/pages';
+
+import {Markdown} from 'astro/components';
+import BaseLayout from '../layouts/BaseLayout';
+
+const page = await getPage('home');
+---
+
+<BaseLayout title="Submit Hack">
+  <div>
+    <h1>Submit Hack</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+      <div class="input-wrapper">
+        <label for="title">Tip Title</label>
+        <input id="title" type="text" />
+      </div>
+      <div class="input-wrapper">
+        <label for="author">Author Name (optional)</label>
+        <input id="author" type="text" />
+      </div>
+      <div class="input-wrapper">
+        <label for="content">Tip Content</label>
+        <div>Supports <a href="https://www.markdownguide.org/basic-syntax">markdown</a></div>
+        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+      </div>
+      <div class="input-wrapper">
+        <label for="pictures">Pictures (optional)</label>
+        <input id="pictures" type="file" name="pictures" multiple />
+      </div>
+    </form>
+  </div>
+</BaseLayout>
